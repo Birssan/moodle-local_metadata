@@ -19,14 +19,14 @@ Feature: Enable module context plugin
       | user | course | role |
       | teacher1 | C1 | editingteacher |
     And I log in as "admin"
-    And I navigate to "Settings" node in "Site administration > Plugins > Local plugins > Metadata"
+    And I navigate to "Plugins > Local plugins > Metadata" in site administration
     And I set the field "id_s_metadatacontext_module_metadataenabled" to "1"
     And I press "Save changes"
     Then the field "s_metadatacontext_module_metadataenabled" matches value "1"
 
-    And I navigate to "Plugins" node in "Site administration"
+    And I navigate to "Plugins" in site administration
     Then I should see "Module metadata"
-    And I navigate to "Module metadata" node in "Site administration > Plugins"
+    And I navigate to "Plugins > Module metadata" in site administration
     Then I should see "Module metadata"
     And I should see "Create a new profile field:"
     And I should see "Create a new profile category"
@@ -58,5 +58,13 @@ Feature: Enable module context plugin
     And I should see "Metadata saved"
     And I press "Cancel"
     And I navigate to "Module metadata" in current page administration
+    Then I should see "Subject matter"
+    And the field "id_local_metadata_field_subjectmatter" matches value "History"
+
+    And I am on "Course 1" course homepage
+    And I follow "Standard forum name"
+    And I navigate to "Edit settings" in current page administration
+    Then I should see "Other fields"
+    And I click on "Other fields" "link"
     Then I should see "Subject matter"
     And the field "id_local_metadata_field_subjectmatter" matches value "History"

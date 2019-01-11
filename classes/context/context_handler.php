@@ -268,6 +268,6 @@ abstract class context_handler {
      * @param stdClass $course The course.
      */
     public function coursemodule_edit_post_actions($data, $course) {
-        return true;
+        return $data;
     }
 }

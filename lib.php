@@ -40,15 +40,21 @@ function local_metadata_supports($feature) {
 function local_metadata_load_data($instance, $contextlevel) {
     global $DB;
 
+    if (is_object($instance) && isset($instance->id)) {
+        $instanceid = $instance->id;
+    } else {
+        $instanceid = 0;
+    }
+
     $sql = 'SELECT lmf.*, lm.instanceid, lm.fieldid, lm.data, lm.dataformat ';
     $sql .= 'FROM {local_metadata_field} lmf ';
     $sql .= 'LEFT JOIN {local_metadata} lm ON lmf.id = lm.fieldid AND lm.instanceid = :instanceid ';
     $sql .= 'WHERE lmf.contextlevel = :contextlevel ';
 
-    $fields = $DB->get_records_sql($sql, ['instanceid' => $instance->id, 'contextlevel' => $contextlevel]);
+    $fields = $DB->get_records_sql($sql, ['instanceid' => $instanceid, 'contextlevel' => $contextlevel]);
     foreach ($fields as $field) {
         $newfield = "\\metadatafieldtype_{$field->datatype}\\metadata";
-        $formfield = new $newfield($field->id, $instance->id, $field);
+        $formfield = new $newfield($field->id, $instanceid, $field);
         $formfield->edit_load_instance_data($instance);
     }
 }
@@ -424,6 +430,7 @@ function local_metadata_coursemodule_standard_elements($formwrapper, $mform) {
  */
 function local_metadata_coursemodule_edit_post_actions($data, $course) {
     foreach (\local_metadata\context\context_handler::all_enabled_subplugins() as $contexthandler) {
-        $contexthandler->coursemodule_edit_post_actions($data, $course);
+        $data = $contexthandler->coursemodule_edit_post_actions($data, $course);
     }
+    return $data;
 }
