@@ -22,8 +22,8 @@
  */
 
 defined('MOODLE_INTERNAL') || die;
-$plugin->version = 2018091800;
-$plugin->release = 'BETA3.3.3 (Build 2018052201)';
-$plugin->maturity = MATURITY_BETA;
+$plugin->version = 2019011100;
+$plugin->release = '3.6.0 (Build 2019011100)';
+$plugin->maturity = MATURITY_STABLE;
 $plugin->requires = 2016052300; // Moodle 3.1 release and upwards.
 $plugin->component = 'local_metadata';
